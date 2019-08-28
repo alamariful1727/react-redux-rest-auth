@@ -2,8 +2,10 @@ import { SIGN_IN, LOGOUT } from "../actions/types";
 
 const initialState = {
 	user: {},
-	isAuthenticate: false,
-	token: ""
+	isAuthenticate: localStorage.hasOwnProperty("token"),
+	token: localStorage.hasOwnProperty("token")
+		? localStorage.getItem("token")
+		: ""
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -12,7 +14,7 @@ export const userReducer = (state = initialState, action) => {
 			return {
 				...state,
 				token: action.payload,
-				isAuthenticate: true
+				isAuthenticate: localStorage.hasOwnProperty("token")
 			};
 		case LOGOUT:
 			return { isAuthenticate: false, token: "" };

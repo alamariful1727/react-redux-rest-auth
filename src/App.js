@@ -14,7 +14,7 @@ class App extends Component {
 		return (
 			<Provider store={store}>
 				<Router>
-					<>
+					<div className="container">
 						<Header />
 						<Switch>
 							<Route path="/" exact component={Home} />
@@ -23,7 +23,7 @@ class App extends Component {
 							<Route path="/logout" component={Logout} />
 							<Route path="/tigrow" component={Tigrow} />
 						</Switch>
-					</>
+					</div>
 				</Router>
 			</Provider>
 		);

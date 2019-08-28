@@ -9,6 +9,8 @@ export const signInUser = user => async dispatch => {
 		};
 		const response = await v1.post("account/login", user, headers);
 		const token = response.data.token;
+		// set the token on localStorage
+		localStorage.setItem("token", token);
 		dispatch({
 			type: SIGN_IN,
 			payload: token
@@ -18,6 +20,7 @@ export const signInUser = user => async dispatch => {
 	}
 };
 export const logoutUser = () => async dispatch => {
+	localStorage.removeItem("token");
 	dispatch({
 		type: LOGOUT
 	});
