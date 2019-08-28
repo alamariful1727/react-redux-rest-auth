@@ -22,14 +22,13 @@ class Login extends React.Component {
 		};
 
 		this.props.signInUser(user);
+		// check login
 
 		// Clear State
 		this.setState({
 			email: "",
 			password: ""
 		});
-		console.log(this.props);
-
 		this.props.history.push("/");
 	};
 
@@ -72,8 +71,10 @@ class Login extends React.Component {
 Login.propTypes = {
 	signInUser: PropTypes.func.isRequired
 };
-
+const mapStateToProps = state => ({
+	isAuthenticate: state.user.isAuthenticate
+});
 export default connect(
-	null,
+	mapStateToProps,
 	{ signInUser }
 )(Login);

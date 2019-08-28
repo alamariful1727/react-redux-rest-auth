@@ -11,8 +11,4 @@ class Tigrow extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	console.log(state);
-};
-
-export default connect(mapStateToProps)(Tigrow);
+export default connect(null)(Tigrow);
