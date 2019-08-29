@@ -13,7 +13,7 @@ export const signInUser = user => async dispatch => {
 		localStorage.setItem("token", token);
 		dispatch({
 			type: SIGN_IN,
-			payload: token
+			payload: { user, token }
 		});
 	} catch (error) {
 		console.log(error);

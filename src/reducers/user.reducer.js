@@ -13,11 +13,12 @@ export const userReducer = (state = initialState, action) => {
 		case SIGN_IN:
 			return {
 				...state,
-				token: action.payload,
+				token: action.payload.token,
+				user: action.payload.user,
 				isAuthenticate: localStorage.hasOwnProperty("token")
 			};
 		case LOGOUT:
-			return { isAuthenticate: false, token: "" };
+			return { user: {}, isAuthenticate: false, token: "" };
 		default:
 			return state;
 	}

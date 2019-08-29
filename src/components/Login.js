@@ -22,7 +22,7 @@ class Login extends React.Component {
 		};
 
 		this.props.signInUser(user);
-		// check login
+		// TODO: check login
 
 		// Clear State
 		this.setState({

@@ -37,12 +37,12 @@ class Header extends React.Component {
 			loggedNav = (
 				<>
 					<NavItem>
-						<Link className="nav-link" to="/login/">
+						<Link className="nav-link" to="/login">
 							Login
 						</Link>
 					</NavItem>
 					<NavItem>
-						<Link className="nav-link" to="/register/">
+						<Link className="nav-link" to="/register">
 							Register
 						</Link>
 					</NavItem>
