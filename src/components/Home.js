@@ -11,7 +11,7 @@ export default class Home extends Component {
 				<button
 					className="btn btn-info"
 					onClick={() => {
-						this.setState({ counter: this.state.counter + 2 });
+						this.setState({ counter: this.state.counter + 1 });
 					}}
 				>
 					Increment
