@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { signInUser } from "./../actions/user.action";
+import { signInUser } from "../actions/auth.action";
 
 class Login extends React.Component {
 	state = {
@@ -20,7 +20,7 @@ class Login extends React.Component {
 			email,
 			password
 		};
-
+		console.log(user);
 		this.props.signInUser(user);
 		// check login
 
@@ -37,7 +37,7 @@ class Login extends React.Component {
 	render() {
 		const { email, password } = this.state;
 		return (
-			<div className="container my-4">
+			<div className="my-4">
 				<Form onSubmit={this.onSubmit}>
 					<FormGroup>
 						<Label for="email">Email</Label>
@@ -72,7 +72,7 @@ Login.propTypes = {
 	signInUser: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
-	isAuthenticate: state.user.isAuthenticate
+	isAuthenticate: state.auth.isAuthenticate
 });
 export default connect(
 	mapStateToProps,

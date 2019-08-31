@@ -8,15 +8,18 @@ import Tigrow from "./components/Tigrow";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { hot } from "react-hot-loader";
+import { loadUser } from "./actions/auth.action";
 
 class App extends Component {
+	componentDidMount() {
+		store.dispatch(loadUser());
+	}
 	render() {
 		return (
 			<Provider store={store}>
 				<Router>
+					<Header />
 					<div className="container">
-						<Header />
 						<Switch>
 							<Route path="/" exact component={Home} />
 							<Route path="/login" component={Login} />
@@ -31,4 +34,4 @@ class App extends Component {
 	}
 }
 
-export default hot(module)(App);
+export default App;

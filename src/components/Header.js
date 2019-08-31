@@ -52,15 +52,17 @@ class Header extends React.Component {
 		return (
 			<div>
 				<Navbar color="dark" dark expand="md">
-					<Link to="/" className="navbar-brand">
-						{this.props.title}
-					</Link>
-					<NavbarToggler onClick={this.toggle} />
-					<Collapse isOpen={this.state.isOpen} navbar>
-						<Nav className="ml-auto" navbar>
-							{loggedNav}
-						</Nav>
-					</Collapse>
+					<div className="container">
+						<Link to="/" className="navbar-brand">
+							{this.props.title}
+						</Link>
+						<NavbarToggler onClick={this.toggle} />
+						<Collapse isOpen={this.state.isOpen} navbar>
+							<Nav className="ml-auto" navbar>
+								{loggedNav}
+							</Nav>
+						</Collapse>
+					</div>
 				</Navbar>
 			</div>
 		);
@@ -68,7 +70,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = state => ({
-	isAuthenticate: state.user.isAuthenticate
+	isAuthenticate: state.auth.isAuthenticate
 });
 
 export default connect(mapStateToProps)(Header);

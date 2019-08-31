@@ -1,27 +1,90 @@
 import React from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { registerUser } from "../actions/auth.action";
 
-export default class Register extends React.Component {
+class Register extends React.Component {
+	state = {
+		firstName: "",
+		lastName: "",
+		email: "",
+		contactNo: "",
+		password: "",
+		confirmPassword: "",
+		role: "user"
+	};
+
+	onSubmit = e => {
+		e.preventDefault();
+		const {
+			firstName,
+			lastName,
+			email,
+			password,
+			confirmPassword,
+			contactNo
+		} = this.state;
+		// TODO: Register validation
+
+		// Register user
+		const user = {
+			firstName,
+			lastName,
+			email,
+			password,
+			confirmPassword,
+			contactNo
+		};
+		console.log(user);
+		this.props.registerUser(user);
+		// check Register
+
+		// Clear State
+		this.setState({
+			firstName: "",
+			lastName: "",
+			email: "",
+			contactNo: "",
+			password: "",
+			confirmPassword: ""
+		});
+		this.props.history.push("/");
+	};
+
+	onChange = e => this.setState({ [e.target.name]: e.target.value });
 	render() {
+		const {
+			firstName,
+			lastName,
+			email,
+			password,
+			confirmPassword,
+			contactNo
+		} = this.state;
 		return (
-			<div className="container my-4">
-				<Form>
+			<div className="my-4">
+				<Form onSubmit={this.onSubmit}>
 					<FormGroup>
-						<Label for="fname">First Name</Label>
+						<Label for="firstName">First Name</Label>
 						<Input
 							type="text"
-							name="fname"
-							id="fname"
+							name="firstName"
+							id="firstName"
 							placeholder="Enter your first name"
+							value={firstName}
+							onChange={this.onChange}
 						/>
 					</FormGroup>
 					<FormGroup>
-						<Label for="lname">Last Name</Label>
+						<Label for="lastName">Last Name</Label>
 						<Input
 							type="text"
-							name="lname"
-							id="lname"
+							name="lastName"
+							id="lastName"
 							placeholder="Enter your last name"
+							value={lastName}
+							onChange={this.onChange}
 						/>
 					</FormGroup>
 					<FormGroup>
@@ -31,6 +94,8 @@ export default class Register extends React.Component {
 							name="email"
 							id="email"
 							placeholder="Enter your email"
+							value={email}
+							onChange={this.onChange}
 						/>
 					</FormGroup>
 					<FormGroup>
@@ -40,6 +105,8 @@ export default class Register extends React.Component {
 							name="password"
 							id="password"
 							placeholder="Enter your password"
+							value={password}
+							onChange={this.onChange}
 						/>
 					</FormGroup>
 					<FormGroup>
@@ -49,6 +116,8 @@ export default class Register extends React.Component {
 							name="confirmPassword"
 							id="confirmPassword"
 							placeholder="Confirm password"
+							value={confirmPassword}
+							onChange={this.onChange}
 						/>
 					</FormGroup>
 					<FormGroup>
@@ -58,6 +127,8 @@ export default class Register extends React.Component {
 							name="contactNo"
 							id="contactNo"
 							placeholder="Enter your Contact Number"
+							value={contactNo}
+							onChange={this.onChange}
 						/>
 					</FormGroup>
 					<Button>Register</Button>
@@ -66,3 +137,14 @@ export default class Register extends React.Component {
 		);
 	}
 }
+
+Register.propTypes = {
+	registerUser: PropTypes.func.isRequired
+};
+const mapStateToProps = state => ({
+	isAuthenticate: state.auth.isAuthenticate
+});
+export default connect(
+	mapStateToProps,
+	{ registerUser }
+)(Register);

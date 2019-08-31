@@ -1,13 +1,31 @@
 import React, { Component } from "react";
-export default class Home extends Component {
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
+class Home extends Component {
 	state = {
 		counter: 0
 	};
+
 	render() {
+		const { auth } = this.props;
+
+		let user;
+		if (auth.isAuthenticate) {
+			user = (
+				<>
+					<ul>
+						<li>{auth.user.firstName}</li>
+					</ul>
+				</>
+			);
+		}
+
 		return (
-			<div className="">
+			<div>
 				<h1 className="text-center">Chat-rooms</h1>
 				<p>Members: {this.state.counter}</p>
+				{user}
 				<button
 					className="btn btn-info"
 					onClick={() => {
@@ -20,3 +38,13 @@ export default class Home extends Component {
 		);
 	}
 }
+Home.propTypes = {
+	auth: PropTypes.object.isRequired,
+	isAuthenticated: PropTypes.bool
+};
+const mapStateToProps = state => ({
+	auth: state.auth,
+	isAuthenticate: state.auth.isAuthenticate
+});
+
+export default connect(mapStateToProps)(Home);
