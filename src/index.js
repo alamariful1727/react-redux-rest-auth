@@ -14,4 +14,4 @@ if (module.hot) {
 	});
 }
 
-serviceWorker.unregister();
+serviceWorker.register();

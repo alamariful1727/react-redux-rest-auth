@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { getMessages, newMessage } from "./../actions/message.action";
 import { dateFormatter } from "./../helpers/index";
+import { messaging } from "../init-fcm";
 
 class Tigrow extends Component {
 	state = {
@@ -12,23 +13,45 @@ class Tigrow extends Component {
 		fcm_token: "",
 		notifications: []
 	};
+
+	// mapping notification
+	renderNotification = (notification, i) => <li key={i}>{notification}</li>;
+
+	// notification listener
+	registerPushListener = pushNotification =>
+		navigator.serviceWorker.addEventListener("message", ({ data }) => {
+			console.log(data);
+			pushNotification(data.notification ? data.notification.title : "");
+		});
+
+	// pushing notification
+	pushNotification = newNotification => {
+		this.setState({
+			notifications: this.state.notifications.push(newNotification)
+		});
+	};
+	setFCM_Token = token => {
+		this.setState({
+			fcm_token: token
+		});
+	};
+
 	componentDidMount() {
 		this.props.getMessages();
-		// // fcm
-		// messaging
-		// 	.requestPermission()
-		// 	.then(async function() {
-		// 		const token = await messaging.getToken();
-		// 		console.log(token);
-		// 		this.setState({
-		// 			fcm_token: token
-		// 		});
-		// 	})
-		// 	.catch(function(err) {
-		// 		console.log("Unable to get permission to notify.", err);
-		// 	});
+		const setToken = token => this.setFCM_Token(token);
+		// fcm
+		messaging
+			.requestPermission()
+			.then(async function() {
+				const token = await messaging.getToken();
+				console.log(token);
+				setToken(token);
+			})
+			.catch(function(err) {
+				console.log("Unable to get permission to notify.", err);
+			});
 
-		// registerPushListener(pushNotification);
+		this.registerPushListener(this.pushNotification);
 	}
 	dateFormat = date => {
 		return dateFormatter(date);
