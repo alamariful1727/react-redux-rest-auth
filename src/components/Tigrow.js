@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { getMessages, newMessage } from "./../actions/message.action";
+import {
+	getMessages,
+	newMessage,
+	pushMessage
+} from "./../actions/message.action";
 import { dateFormatter } from "./../helpers/index";
 import { messaging } from "../init-fcm";
 
@@ -14,22 +18,35 @@ class Tigrow extends Component {
 		notifications: []
 	};
 
-	// mapping notification
-	renderNotification = (notification, i) => <li key={i}>{notification}</li>;
-
 	// notification listener
-	registerPushListener = pushNotification =>
+	registerPushListener = pushNotification => {
 		navigator.serviceWorker.addEventListener("message", ({ data }) => {
 			console.log(data);
-			pushNotification(data.notification ? data.notification.title : "");
-		});
+			console.log(this.props.auth);
+			const d = data["firebase-messaging-msg-data"].data;
 
-	// pushing notification
-	pushNotification = newNotification => {
-		this.setState({
-			notifications: this.state.notifications.push(newNotification)
+			console.log(this.props.auth.user._id);
+			console.log(d);
+
+			// check
+			this.pushMessage(d);
 		});
 	};
+
+	// pushing message
+	pushMessage = newMessage => {
+		newMessage.account = JSON.parse(newMessage.account);
+		console.log(newMessage);
+		let curr = this.props.auth.user._id;
+		let n = newMessage.account.id;
+
+		if (curr.toString() !== n.toString()) {
+			this.props.pushMessage(newMessage);
+		}
+		return;
+	};
+
+	// set fcm token
 	setFCM_Token = token => {
 		this.setState({
 			fcm_token: token
@@ -53,14 +70,18 @@ class Tigrow extends Component {
 
 		this.registerPushListener(this.pushNotification);
 	}
+
 	dateFormat = date => {
 		return dateFormatter(date);
 	};
+
 	onSubmit = async e => {
 		e.preventDefault();
 		const { inputMessage } = this.state;
+
 		const newMsg = {
-			text: inputMessage
+			text: inputMessage,
+			fcm_token: this.state.fcm_token
 		};
 		console.log(newMsg);
 		await this.props.newMessage(newMsg);
@@ -71,6 +92,7 @@ class Tigrow extends Component {
 	};
 
 	onChange = e => this.setState({ [e.target.name]: e.target.value });
+
 	render() {
 		const { inputMessage } = this.state;
 		return (
@@ -119,15 +141,17 @@ class Tigrow extends Component {
 Tigrow.propTypes = {
 	getMessages: PropTypes.func.isRequired,
 	newMessage: PropTypes.func.isRequired,
+	pushMessage: PropTypes.func.isRequired,
 	msg: PropTypes.object.isRequired,
 	isAuthenticated: PropTypes.bool
 };
 const mapStateToProps = state => ({
+	auth: state.auth,
 	msg: state.msg,
 	isAuthenticate: state.auth.isAuthenticate
 });
 
 export default connect(
 	mapStateToProps,
-	{ getMessages, newMessage }
+	{ getMessages, newMessage, pushMessage }
 )(Tigrow);

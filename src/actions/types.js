@@ -12,4 +12,5 @@ export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const GET_MESSAGES = "GET_MESSAGES";
 export const NEW_MESSAGE = "NEW_MESSAGE";
+export const PUSH_MESSAGE = "PUSH_MESSAGE";
 export const MESSAGES_LOADING = "MESSAGES_LOADING";

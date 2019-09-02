@@ -1,4 +1,9 @@
-import { GET_MESSAGES, MESSAGES_LOADING, NEW_MESSAGE } from "./types";
+import {
+	GET_MESSAGES,
+	MESSAGES_LOADING,
+	NEW_MESSAGE,
+	PUSH_MESSAGE
+} from "./types";
 import v1 from "../Apis/v1";
 import { returnErrors } from "./errorActions";
 import { tokenConfig } from "./auth.action";
@@ -31,6 +36,14 @@ export const newMessage = message => (dispatch, getState) => {
 			console.log(err);
 			dispatch(returnErrors(err.response.data, err.response.status));
 		});
+};
+
+// push message
+export const pushMessage = message => dispatch => {
+	dispatch({
+		type: PUSH_MESSAGE,
+		payload: message
+	});
 };
 
 export const setMessagesLoading = () => {

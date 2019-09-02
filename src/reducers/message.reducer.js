@@ -1,4 +1,9 @@
-import { GET_MESSAGES, MESSAGES_LOADING, NEW_MESSAGE } from "../actions/types";
+import {
+	GET_MESSAGES,
+	MESSAGES_LOADING,
+	NEW_MESSAGE,
+	PUSH_MESSAGE
+} from "../actions/types";
 
 const initialState = {
 	messages: [],
@@ -8,6 +13,12 @@ const initialState = {
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case NEW_MESSAGE:
+			return {
+				...state,
+				messages: [action.payload, ...state.messages],
+				loading: false
+			};
+		case PUSH_MESSAGE:
 			return {
 				...state,
 				messages: [action.payload, ...state.messages],

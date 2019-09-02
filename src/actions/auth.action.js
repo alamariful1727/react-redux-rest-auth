@@ -52,7 +52,8 @@ export const registerUser = user => async dispatch => {
 			payload: { token, user }
 		});
 	} catch (err) {
-		dispatch(returnErrors(err.response.data, err.response.status));
+		// dispatch(returnErrors(err.response.data, err.response.status));
+		console.log(err);
 		dispatch({
 			type: REGISTER_FAIL
 		});

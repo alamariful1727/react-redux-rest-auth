@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+import { registerServiceWorker } from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+registerServiceWorker();
 ReactDOM.render(<App />, document.getElementById("root"));
 
 // normal reloading
@@ -13,5 +14,3 @@ if (module.hot) {
 		ReactDOM.render(<NextApp />, document.getElementById("root"));
 	});
 }
-
-serviceWorker.register();
