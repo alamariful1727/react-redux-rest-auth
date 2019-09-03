@@ -2,7 +2,8 @@ import {
 	GET_MESSAGES,
 	MESSAGES_LOADING,
 	NEW_MESSAGE,
-	PUSH_MESSAGE
+	PUSH_MESSAGE,
+	FCM_TOKEN
 } from "./types";
 import v1 from "../Apis/v1";
 import { returnErrors } from "./errorActions";
@@ -44,6 +45,20 @@ export const pushMessage = message => dispatch => {
 		type: PUSH_MESSAGE,
 		payload: message
 	});
+};
+// push message
+export const sendFcmToken = message => (dispatch, getState) => {
+	v1.post("/chats/init", message, tokenConfig(getState))
+		.then(res => {
+			dispatch({
+				type: FCM_TOKEN,
+				payload: true
+			});
+		})
+		.catch(err => {
+			console.log(err);
+			dispatch(returnErrors(err.response.data, err.response.status));
+		});
 };
 
 export const setMessagesLoading = () => {

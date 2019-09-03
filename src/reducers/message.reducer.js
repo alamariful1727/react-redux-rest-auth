@@ -2,12 +2,14 @@ import {
 	GET_MESSAGES,
 	MESSAGES_LOADING,
 	NEW_MESSAGE,
-	PUSH_MESSAGE
+	PUSH_MESSAGE,
+	FCM_TOKEN
 } from "../actions/types";
 
 const initialState = {
 	messages: [],
-	loading: false
+	loading: false,
+	tokenSend: false
 };
 
 export default function(state = initialState, action) {
@@ -34,6 +36,11 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				loading: true
+			};
+		case FCM_TOKEN:
+			return {
+				...state,
+				tokenSend: action.payload
 			};
 		default:
 			return state;

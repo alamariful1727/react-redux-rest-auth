@@ -5,7 +5,8 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import {
 	getMessages,
 	newMessage,
-	pushMessage
+	pushMessage,
+	sendFcmToken
 } from "./../actions/message.action";
 import { dateFormatter } from "./../helpers/index";
 import { messaging } from "../init-fcm";
@@ -48,6 +49,9 @@ class Tigrow extends Component {
 
 	// set fcm token
 	setFCM_Token = token => {
+		// let t = { token };
+		// send token to server
+		// this.props.sendFcmToken(t);
 		this.setState({
 			fcm_token: token
 		});
@@ -142,6 +146,7 @@ Tigrow.propTypes = {
 	getMessages: PropTypes.func.isRequired,
 	newMessage: PropTypes.func.isRequired,
 	pushMessage: PropTypes.func.isRequired,
+	sendFcmToken: PropTypes.func.isRequired,
 	msg: PropTypes.object.isRequired,
 	isAuthenticated: PropTypes.bool
 };
@@ -153,5 +158,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getMessages, newMessage, pushMessage }
+	{ getMessages, newMessage, pushMessage, sendFcmToken }
 )(Tigrow);
