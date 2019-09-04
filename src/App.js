@@ -7,8 +7,28 @@ import Register from "./components/Register";
 import Tigrow from "./components/Tigrow";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Redirect
+} from "react-router-dom";
 import { loadUser } from "./actions/auth.action";
+import { isLogged } from "./actions/authHelper";
+
+// private route
+class PrivateRoute extends Component {
+	render() {
+		const Component = this.props.component;
+		return (
+			<Route
+				path={this.props.path}
+				exact
+				render={r => (isLogged() ? <Component /> : <Redirect to="/login" />)}
+			/>
+		);
+	}
+}
 
 class App extends Component {
 	componentDidMount() {
@@ -25,7 +45,7 @@ class App extends Component {
 							<Route path="/login" component={Login} />
 							<Route path="/register" component={Register} />
 							<Route path="/logout" component={Logout} />
-							<Route path="/tigrow" component={Tigrow} />
+							<PrivateRoute path="/tigrow" exact component={Tigrow} />
 						</Switch>
 					</div>
 				</Router>
