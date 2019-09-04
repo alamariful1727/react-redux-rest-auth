@@ -3,7 +3,8 @@ import {
 	MESSAGES_LOADING,
 	NEW_MESSAGE,
 	PUSH_MESSAGE,
-	FCM_TOKEN
+	FCM_TOKEN,
+	POST_CHAT
 } from "./types";
 import v1 from "../Apis/v1";
 import { returnErrors } from "./errorActions";
@@ -13,15 +14,15 @@ import { tokenConfig } from "./auth.action";
 export const getMessages = () => (dispatch, getState) => {
 	dispatch(setMessagesLoading());
 	v1.get("/message", tokenConfig(getState))
-		.then(res =>
+		.then(res => {
 			dispatch({
 				type: GET_MESSAGES,
 				payload: res.data
-			})
-		)
-		.catch(err =>
-			dispatch(returnErrors(err.response.data, err.response.status))
-		);
+			});
+		})
+		.catch(err => {
+			dispatch(returnErrors(err.response.data, err.response.status));
+		});
 };
 
 // new massage
@@ -35,7 +36,7 @@ export const newMessage = message => (dispatch, getState) => {
 		})
 		.catch(err => {
 			console.log(err);
-			dispatch(returnErrors(err.response.data, err.response.status));
+			// dispatch(returnErrors(err.response.data, err.response.status));
 		});
 };
 
@@ -46,9 +47,10 @@ export const pushMessage = message => dispatch => {
 		payload: message
 	});
 };
-// push message
+// send fcm token
 export const sendFcmToken = message => (dispatch, getState) => {
 	v1.post("/chats/init", message, tokenConfig(getState))
+		// v1.post("/chats/init", message, tokenConfig(getState))
 		.then(res => {
 			dispatch({
 				type: FCM_TOKEN,
@@ -58,6 +60,20 @@ export const sendFcmToken = message => (dispatch, getState) => {
 		.catch(err => {
 			console.log(err);
 			dispatch(returnErrors(err.response.data, err.response.status));
+		});
+};
+// push message for 1v1
+export const sendMessage1v1 = message => (dispatch, getState) => {
+	v1.post("/chats", message, tokenConfig(getState))
+		.then(res => {
+			dispatch({
+				type: POST_CHAT,
+				payload: res.data
+			});
+		})
+		.catch(err => {
+			console.log(err);
+			// dispatch(returnErrors(err.response.data, err.response.status));
 		});
 };
 

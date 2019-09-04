@@ -1,10 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-	baseURL: "https://dea26c1b.ngrok.io/api/v1/"
-	// baseURL: "http://192.168.8.171:4040/api/v1/"
-});
-
-export const nizamBhai = axios.create({
-	baseURL: "https://cf1f91b2.ngrok.io/api/v1/"
+	// baseURL: "https://98c8be9d.ngrok.io/api/v1/"
+	// baseURL: "https://40650e85.ngrok.io/api/v1/"
+	baseURL: "http://192.168.1.3:5050/api/v1/"
 });

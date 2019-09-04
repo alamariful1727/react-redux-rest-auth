@@ -3,13 +3,15 @@ import {
 	MESSAGES_LOADING,
 	NEW_MESSAGE,
 	PUSH_MESSAGE,
-	FCM_TOKEN
+	FCM_TOKEN,
+	POST_CHAT
 } from "../actions/types";
 
 const initialState = {
 	messages: [],
 	loading: false,
-	tokenSend: false
+	tokenSend: false,
+	postChat: {}
 };
 
 export default function(state = initialState, action) {
@@ -41,6 +43,11 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				tokenSend: action.payload
+			};
+		case POST_CHAT:
+			return {
+				...state,
+				postChat: action.payload
 			};
 		default:
 			return state;

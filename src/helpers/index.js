@@ -31,6 +31,6 @@ export const dateFormatter = d => {
 		day,
 		month,
 		year,
-		format: day + " " + time
+		format: time + " | " + month + " " + date
 	};
 };

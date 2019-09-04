@@ -5,8 +5,9 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import {
 	getMessages,
 	newMessage,
-	pushMessage,
-	sendFcmToken
+	pushMessage
+	// sendFcmToken
+	// sendMessage1v1
 } from "./../actions/message.action";
 import { dateFormatter } from "./../helpers/index";
 import { messaging } from "../init-fcm";
@@ -50,7 +51,7 @@ class Tigrow extends Component {
 	// set fcm token
 	setFCM_Token = token => {
 		// let t = { token };
-		// send token to server
+		// // send token to server
 		// this.props.sendFcmToken(t);
 		this.setState({
 			fcm_token: token
@@ -83,12 +84,17 @@ class Tigrow extends Component {
 		e.preventDefault();
 		const { inputMessage } = this.state;
 
-		const newMsg = {
+		let newMsg = {
 			text: inputMessage,
 			fcm_token: this.state.fcm_token
 		};
 		console.log(newMsg);
 		await this.props.newMessage(newMsg);
+
+		// newMsg.account = this.props.auth.user._id;
+		// newMsg.reciver = this.props.auth.user.friends[0].user;
+		// await this.props.sendMessage1v1(newMsg);
+
 		// Clear State
 		this.setState({
 			inputMessage: ""
@@ -122,20 +128,30 @@ class Tigrow extends Component {
 					</Form>
 				</div>
 				{/* messages */}
-				<div id="messages">
-					{this.props.msg.messages.map(msg => (
-						<div
-							key={msg.id}
-							id="message"
-							className="border border-secondary px-5 pt-3 rounded-pill mb-1"
-						>
-							<div className="header d-flex justify-content-between">
-								<h6>{msg.account.email}</h6>
-								<small>{this.dateFormat(new Date(msg.createdAt)).format}</small>
+				<div className="messages">
+					{this.props.msg.messages.map(msg => {
+						let message_mine =
+							msg.account.email === this.props.auth.user.email
+								? "message-mine"
+								: "";
+						let message_mine_text =
+							msg.account.email === this.props.auth.user.email
+								? "message-text-mine"
+								: "";
+						return (
+							<div key={msg.id} className={"message " + message_mine}>
+								<div className="header d-flex justify-content-between">
+									<h6 className="mr-3">{msg.account.email}</h6>
+									<small>
+										{this.dateFormat(new Date(msg.createdAt)).format}
+									</small>
+								</div>
+								<p className={"message-text mt-0 mb-4 " + message_mine_text}>
+									{msg.text}
+								</p>
 							</div>
-							<p>{msg.text}</p>
-						</div>
-					))}
+						);
+					})}
 				</div>
 			</>
 		);
@@ -146,7 +162,7 @@ Tigrow.propTypes = {
 	getMessages: PropTypes.func.isRequired,
 	newMessage: PropTypes.func.isRequired,
 	pushMessage: PropTypes.func.isRequired,
-	sendFcmToken: PropTypes.func.isRequired,
+	// sendFcmToken: PropTypes.func.isRequired,
 	msg: PropTypes.object.isRequired,
 	isAuthenticated: PropTypes.bool
 };
@@ -158,5 +174,11 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getMessages, newMessage, pushMessage, sendFcmToken }
+	{
+		getMessages,
+		newMessage,
+		pushMessage
+		// sendFcmToken
+		// sendMessage1v1
+	}
 )(Tigrow);

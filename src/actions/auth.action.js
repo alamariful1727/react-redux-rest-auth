@@ -18,6 +18,7 @@ export const signInUser = user => async dispatch => {
 			Accept: "application/json",
 			"Content-Type": "application/json"
 		};
+		// const response = await nizamBhai.post("account/login", user, headers);
 		const response = await v1.post("account/login", user, headers);
 		const token = response.data.token;
 		console.log(response.data);
@@ -42,6 +43,7 @@ export const registerUser = user => async dispatch => {
 			Accept: "application/json",
 			"Content-Type": "application/json"
 		};
+		// const response = await nizamBhai.post("account/signup", user, headers);
 		const response = await v1.post("account/signup", user, headers);
 		const token = response.data.token;
 		user = response.data.user;
@@ -75,6 +77,7 @@ export const loadUser = () => (dispatch, getState) => {
 	}
 	// User loading
 	dispatch({ type: USER_LOADING });
+	// nizamBhai
 	v1.get(`/account/${getState().auth.user._id}`, tokenConfig(getState))
 		.then(res =>
 			dispatch({

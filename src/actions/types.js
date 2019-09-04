@@ -15,3 +15,4 @@ export const NEW_MESSAGE = "NEW_MESSAGE";
 export const PUSH_MESSAGE = "PUSH_MESSAGE";
 export const MESSAGES_LOADING = "MESSAGES_LOADING";
 export const FCM_TOKEN = "FCM_TOKEN";
+export const POST_CHAT = "POST_CHAT";
