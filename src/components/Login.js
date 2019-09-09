@@ -6,8 +6,8 @@ import { signInUser } from "../actions/auth.action";
 
 class Login extends React.Component {
 	state = {
-		email: "jest@gmail.com",
-		password: "Jest@1234"
+		email: "alamariful1727@gmail.com",
+		password: "Ariful@123"
 	};
 
 	onSubmit = e => {

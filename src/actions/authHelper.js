@@ -21,8 +21,7 @@ export const signIn = async (email, password, history) => {
 };
 // Checks if there is a saved token and it's still valid
 export const isLogged = () => {
-	const token = getToken();
-	return !!token && isTokenValid(token);
+	return  localStorage.hasOwnProperty("token");
 };
 // check a token is valid or not
 export const isTokenValid = token => {

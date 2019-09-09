@@ -21,11 +21,11 @@ class Header extends React.Component {
 		if (this.props.isAuthenticate) {
 			loggedNav = (
 				<>
-					<NavItem>
+					{/* <NavItem>
 						<Link className="nav-link" to="/tigrow">
 							TiGrow
 						</Link>
-					</NavItem>
+					</NavItem> */}
 					<NavItem>
 						<Link className="nav-link" to="/logout">
 							Logout
